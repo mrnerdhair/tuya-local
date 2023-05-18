@@ -1,0 +1,72 @@
+name: GeekTale K01 Smart Lock
+products:
+  - id: a0wnqgxs
+    name: GeekTale K01 Smart Lock
+primary_entity:
+  entity: lock
+  dps:
+    - id: 33
+      name: lock
+      type: boolean
+      value_mirror: "lock_state"
+    - id: 12
+      name: unlock_fingerprint
+      type: integer
+      optional: true
+    - id: 47
+      name: lock_state
+      type: boolean
+      hidden: true
+      mapping:
+        - dps_val: true
+          value: false
+        - dps_val: false
+          value: true
+secondary_entities:
+  - entity: number
+    category: config
+    name: Auto Lock Delay
+    icon: "mdi:lock-clock"
+    dps:
+      - id: 36
+        name: value
+        type: integer
+        range:
+          min: 1
+          max: 1800
+        unit: s
+  - entity: switch
+    category: config
+    name: Mute
+    dps:
+      - id: 31
+        name: switch
+        type: string
+        mapping:
+          - dps_val: "normal"
+            value: false
+            icon: "mdi:volume-high"
+          - dps_val: "mute"
+            value: true
+            icon: "mdi:volume-off"
+  - entity: switch
+    category: config
+    name: Security Mode
+    dps:
+      - id: 76
+        name: switch
+        type: boolean
+        mapping:
+          - dps_val: false
+            icon: "mdi:shield-lock-open"
+          - dps_val: true
+            icon: "mdi:shield-lock"
+  - entity: sensor
+    class: battery
+    category: diagnostic
+    name: Battery
+    dps:
+      - id: 8
+        name: sensor
+        type: integer
+        unit: "%"
