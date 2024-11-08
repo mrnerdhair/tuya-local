@@ -13,35 +13,31 @@ primary_entity:
     - id: 2
       name: temperature
       type: integer
+      unit: C
       range:
         min: 5
         max: 30
     - id: 3
       name: current_temperature
       type: integer
-      readonly: true
     - id: 4
       name: preset_mode
       type: integer
       mapping:
         - dps_val: 1
-          value: "Home"
+          value: home
         - dps_val: 2
-          value: "Away"
+          value: away
         - dps_val: 3
-          value: "Smart"
+          value: activity
         - dps_val: 4
-          value: "Sleep"
+          value: sleep
     - id: 12
       type: bitfield
       name: error
       mapping:
         - dps_val: 0
           value: OK
-    - id: 101
-      type: integer
-      name: external_temperature
-      readonly: true
     - id: 102
       type: integer
       name: sensor
@@ -70,16 +66,13 @@ primary_entity:
       mapping:
         - dps_val: true
           value: heating
-          icon: "mdi:thermometer"
         - dps_val: false
-          icon: "mdi:thermometer-off"
           constraint: hvac_mode
           conditions:
             - dps_val: true
               value: idle
             - dps_val: false
               value: "off"
-      readonly: true
     - id: 107
       type: boolean
       name: unknown_107
@@ -91,17 +84,12 @@ primary_entity:
       name: unknown_110
 secondary_entities:
   - entity: lock
-    name: Child lock
+    translation_key: child_lock
     category: config
     dps:
       - id: 6
         type: boolean
         name: lock
-        mapping:
-          - dps_val: true
-            icon: "mdi:hand-back-right-off"
-          - dps_val: false
-            icon: "mdi:hand-back-right"
   - entity: sensor
     name: External temperature
     class: temperature
@@ -111,7 +99,6 @@ secondary_entities:
         name: sensor
         class: measurement
         unit: C
-        readonly: true
   - entity: select
     name: Temperature sensor
     icon: "mdi:thermometer"

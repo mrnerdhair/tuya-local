@@ -13,7 +13,7 @@ primary_entity:
       type: bitfield
       name: fault_code
       optional: true
-      # does not seem to show in logs, and name in iot.tuya.com is in Chinese so probably not implemented
+      # does not seem to show in logs
     - id: 103
       type: integer
       name: ambient_temperature
@@ -82,6 +82,7 @@ secondary_entities:
       - id: 55
         type: string
         name: option
+        optional: true
         mapping:
           - dps_val: pos_1
             value: Front
@@ -98,7 +99,7 @@ secondary_entities:
     category: config
     icon: "mdi:car-seat-heater"
     dps:
-      - id: 60 
+      - id: 60
         type: string
         name: value
         range:
@@ -126,7 +127,6 @@ secondary_entities:
         type: boolean
         name: switch
   - entity: light
-    name: Light
     category: config
     dps:
       - id: 64
@@ -141,7 +141,6 @@ secondary_entities:
         type: boolean
         name: switch
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:
@@ -155,3 +154,16 @@ secondary_entities:
           - dps_val: 0
             value: false
           - value: true
+  - entity: binary_sensor
+    name: Seated
+    class: occupancy
+    icon: "mdi:toilet"
+    category: diagnostic
+    dps:
+      - id: 46
+        type: boolean
+        name: sensor
+        optional: true
+        mapping:
+          - dps_val: null
+            value: false

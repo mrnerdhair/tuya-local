@@ -33,7 +33,6 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
@@ -48,7 +47,6 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -65,7 +63,6 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:
@@ -82,9 +79,8 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 9
         type: integer
@@ -97,8 +93,7 @@ secondary_entities:
           - scale: 60
             step: 60
   - entity: select
-    name: Initial state
-    icon: "mdi:toggle-switch"
+    translation_key: initial_state
     category: config
     dps:
       - id: 38
@@ -106,11 +101,11 @@ secondary_entities:
         name: option
         mapping:
           - dps_val: "on"
-            value: "On"
+            value: "on"
           - dps_val: "off"
-            value: "Off"
+            value: "off"
           - dps_val: memory
-            value: Last state
+            value: memory
   - entity: select
     name: Light mode
     icon: "mdi:lightbulb"
@@ -127,16 +122,9 @@ secondary_entities:
           - dps_val: none
             value: "Off"
   - entity: lock
-    name: Child lock
-    icon: "mdi:hand-back-right-off"
+    translation_key: child_lock
     category: config
     dps:
       - id: 40
         type: boolean
         name: lock
-
-        
-
-
-            
-

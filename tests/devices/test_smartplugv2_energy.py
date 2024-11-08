@@ -1,13 +1,14 @@
 """Tests for the switch entity."""
+
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.switch import SwitchDeviceClass
 from homeassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
-    UnitOfTime,
     UnitOfEnergy,
     UnitOfPower,
+    UnitOfTime,
 )
 
 from ..const import SMARTSWITCH_ENERGY_PAYLOAD
@@ -31,6 +32,8 @@ CALIBP_DPS = "24"
 CALIBE_DPS = "25"
 ERROR_DPS = "26"
 INITIAL_DPS = "38"
+LIGHT_DPS = "39"
+LOCK_DPS = "40"
 CYCLE_DPS = "41"
 RANDOM_DPS = "42"
 OVERCHARGE_DPS = "46"
@@ -51,7 +54,7 @@ class TestSwitchV2Energy(
         self.setUpMultiSwitch(
             [
                 {
-                    "name": "switch",
+                    "name": "switch_outlet",
                     "dps": SWITCH_DPS,
                     "device_class": SwitchDeviceClass.OUTLET,
                 },
@@ -63,7 +66,7 @@ class TestSwitchV2Energy(
         )
         self.setUpBasicBinarySensor(
             ERROR_DPS,
-            self.entities.get("binary_sensor_error"),
+            self.entities.get("binary_sensor_problem"),
             device_class=BinarySensorDeviceClass.PROBLEM,
             testdata=(1, 0),
         )
@@ -78,9 +81,9 @@ class TestSwitchV2Energy(
             INITIAL_DPS,
             self.entities.get("select_initial_state"),
             {
-                "on": "On",
-                "off": "Off",
-                "memory": "Last State",
+                "on": "on",
+                "off": "off",
+                "memory": "memory",
             },
         )
         self.setUpMultiSensors(
@@ -117,9 +120,11 @@ class TestSwitchV2Energy(
         )
         self.mark_secondary(
             [
-                "binary_sensor_error",
+                "binary_sensor_problem",
+                "lock_child_lock",
                 "number_timer",
                 "select_initial_state",
+                "select_light",
                 "sensor_current",
                 "sensor_energy",
                 "sensor_power",
@@ -135,7 +140,7 @@ class TestSwitchV2Energy(
         self.dps[RANDOM_DPS] = "3C4D"
 
         self.assertDictEqual(
-            self.multiSwitch["switch"].extra_state_attributes,
+            self.multiSwitch["switch_outlet"].extra_state_attributes,
             {
                 "test_bit": 21,
                 "fault_code": 26,

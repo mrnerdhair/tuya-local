@@ -1,9 +1,12 @@
 """Tests for the switch entity."""
-from homeassistant.components.switch import SwitchDeviceClass
+
 from homeassistant.components.light import (
+    EFFECT_OFF,
     ColorMode,
     LightEntityFeature,
 )
+from homeassistant.components.switch import SwitchDeviceClass
+
 from ..const import DIGOO_DGSP01_SOCKET_PAYLOAD
 from ..helpers import assert_device_properties_set
 from ..mixins.switch import BasicSwitchTests
@@ -29,8 +32,8 @@ class TestDigooNightlightSwitch(BasicSwitchTests, TuyaDeviceTestCase):
             "digoo_dgsp01_dual_nightlight_switch.yaml",
             DIGOO_DGSP01_SOCKET_PAYLOAD,
         )
-        self.subject = self.entities.get("switch")
-        self.light = self.entities.get("light_night_light")
+        self.subject = self.entities.get("switch_outlet")
+        self.light = self.entities.get("light_nightlight")
 
         self.setUpBasicSwitch(
             SWITCH_DPS, self.subject, device_class=SwitchDeviceClass.OUTLET
@@ -45,7 +48,7 @@ class TestDigooNightlightSwitch(BasicSwitchTests, TuyaDeviceTestCase):
     def test_light_brightness(self):
         self.dps[BRIGHTNESS_DPS] = 45
         self.dps[COLORMODE_DPS] = "white"
-        self.assertEqual(self.light.brightness, 45)
+        self.assertEqual(self.light.brightness, 23)
 
     def test_light_color_mode(self):
         self.dps[COLORMODE_DPS] = "colour"
@@ -80,6 +83,7 @@ class TestDigooNightlightSwitch(BasicSwitchTests, TuyaDeviceTestCase):
                 "Scene 2",
                 "Scene 3",
                 "Scene 4",
+                EFFECT_OFF,
             ],
         )
 
@@ -97,9 +101,9 @@ class TestDigooNightlightSwitch(BasicSwitchTests, TuyaDeviceTestCase):
         self.dps[COLORMODE_DPS] = "scene_4"
         self.assertEqual(self.light.effect, "Scene 4")
         self.dps[COLORMODE_DPS] = "white"
-        self.assertIsNone(self.light.effect)
+        self.assertEqual(self.light.effect, EFFECT_OFF)
         self.dps[COLORMODE_DPS] = "colour"
-        self.assertIsNone(self.light.effect)
+        self.assertEqual(self.light.effect, EFFECT_OFF)
 
     def test_light_supported_color_modes(self):
         self.assertCountEqual(
@@ -128,7 +132,7 @@ class TestDigooNightlightSwitch(BasicSwitchTests, TuyaDeviceTestCase):
         async with assert_device_properties_set(
             self.light._device,
             {
-                BRIGHTNESS_DPS: 128,
+                BRIGHTNESS_DPS: 140,
             },
         ):
             await self.light.async_turn_on(brightness=128)

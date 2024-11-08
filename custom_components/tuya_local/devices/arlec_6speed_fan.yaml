@@ -4,6 +4,7 @@ products:
     name: Arlec 45cm black floor fan
 primary_entity:
   entity: fan
+  translation_only_key: fan_with_presets
   dps:
     - id: 1
       name: switch
@@ -14,21 +15,21 @@ primary_entity:
       optional: true
       mapping:
         - dps_val: nature
-          value: Natural
+          value: nature
         - dps_val: sleep
-          value: Sleep
+          value: sleep
         - dps_val: fresh
-          value: Fresh
+          value: fresh
         - dps_val: smart
-          value: Smart
+          value: smart
         - dps_val: strong
-          value: Strong
+          value: strong
         - dps_val: closed
-          value: "Off"
+          value: "off"
         - dps_val: ordinary
-          value: Normal
+          value: normal
         - dps_val: null
-          value: "Off"
+          value: "off"
     - id: 3
       name: speed
       type: string
@@ -53,7 +54,6 @@ primary_entity:
       name: fault_code
 secondary_entities:
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:
@@ -65,8 +65,7 @@ secondary_entities:
             value: false
           - value: true
   - entity: select
-    name: Timer
-    icon: "mdi:timer"
+    translation_key: timer
     category: config
     dps:
       - id: 6
@@ -74,16 +73,16 @@ secondary_entities:
         name: option
         mapping:
           - dps_val: "0"
-            value: "Off"
+            value: cancel
           - dps_val: "1"
-            value: "1 hour"
+            value: "1h"
           - dps_val: "2"
-            value: "2 hours"
+            value: "2h"
           - dps_val: "3"
-            value: "3 hours"
+            value: "3h"
           - dps_val: "4"
-            value: "4 hours"
+            value: "4h"
           - dps_val: "5"
-            value: "5 hours"
+            value: "5h"
           - dps_val: "6"
-            value: "6 hours"
+            value: "6h"

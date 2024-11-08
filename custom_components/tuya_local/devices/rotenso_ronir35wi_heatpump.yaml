@@ -36,7 +36,7 @@ primary_entity:
                 max: 86
     - id: 3
       type: integer
-      name: current_temperature 
+      name: current_temperature
     - id: 4
       type: string
       name: mode
@@ -68,16 +68,16 @@ primary_entity:
           constraint: eco
           conditions:
             - dps_val: false
-              value: Normal
+              value: comfort
             - dps_val: true
-              value: Eco
+              value: eco
         - dps_val: true
-          value: Turbo
+          value: boost
     - id: 103
       type: boolean
       name: temperature_unit
       mapping:
-        - dps_vali: true
+        - dps_val: true
           value: F
         - value: C
     - id: 104
@@ -104,7 +104,7 @@ primary_entity:
       hidden: true
 secondary_entities:
   - entity: select
-    name: Temperature unit
+    translation_key: temperature_unit
     category: config
     dps:
       - id: 103
@@ -112,13 +112,12 @@ secondary_entities:
         name: option
         mapping:
           - dps_val: true
-            value: Fahrenheit
+            value: fahrenheit
           - dps_val: false
-            value: Celsius
+            value: celsius
   - entity: switch
     category: config
-    name: Sleep
-    icon: "mdi:power-sleep"
+    translation_key: sleep
     dps:
       - id: 101
         type: boolean

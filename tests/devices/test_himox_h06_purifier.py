@@ -1,10 +1,6 @@
-from homeassistant.components.button import ButtonDeviceClass
 from homeassistant.components.fan import FanEntityFeature
 from homeassistant.components.sensor import SensorDeviceClass
-from homeassistant.const import (
-    PERCENTAGE,
-    UnitOfTime,
-)
+from homeassistant.const import PERCENTAGE, UnitOfTime
 
 from ..const import HIMOX_H06_PURIFIER_PAYLOAD
 from ..helpers import assert_device_properties_set
@@ -43,7 +39,6 @@ class TestHimoxH06Purifier(
         self.setUpBasicButton(
             RESET_DPS,
             self.entities.get("button_filter_reset"),
-            ButtonDeviceClass.RESTART,
         )
         self.setUpBasicLight(LIGHT_DPS, self.entities.get("light_aq_indicator"))
         self.setUpMultiSelect(
@@ -52,9 +47,9 @@ class TestHimoxH06Purifier(
                     "dps": TIMER_DPS,
                     "name": "select_timer",
                     "options": {
-                        "cancel": "Off",
-                        "4h": "4 hours",
-                        "8h": "8 hours",
+                        "cancel": "cancel",
+                        "4h": "4h",
+                        "8h": "8h",
                     },
                 },
                 {
@@ -77,7 +72,7 @@ class TestHimoxH06Purifier(
                 },
                 {
                     "dps": COUNTDOWN_DPS,
-                    "name": "sensor_timer",
+                    "name": "sensor_time_remaining",
                     "unit": UnitOfTime.MINUTES,
                     "device_class": SensorDeviceClass.DURATION,
                 },
@@ -93,14 +88,16 @@ class TestHimoxH06Purifier(
                 "light_aq_indicator",
                 "sensor_active_filter_life",
                 "select_timer",
-                "sensor_timer",
+                "sensor_time_remaining",
             ]
         )
 
     def test_supported_features(self):
         self.assertEqual(
             self.subject.supported_features,
-            FanEntityFeature.SET_SPEED,
+            FanEntityFeature.SET_SPEED
+            | FanEntityFeature.TURN_OFF
+            | FanEntityFeature.TURN_ON,
         )
 
     def test_speed(self):

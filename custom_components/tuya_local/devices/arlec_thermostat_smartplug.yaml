@@ -1,5 +1,5 @@
 name: Arlec thermostat smartplug
-product:
+products:
   - id: 1z2w76xtiawhxleg
     name: Arlec PCTH01HA
 primary_entity:
@@ -8,7 +8,6 @@ primary_entity:
     - id: 9
       type: boolean
       name: hvac_mode
-      icon: "mdi:thermostat-box"
       mapping:
         - dps_val: false
           value: "off"
@@ -99,16 +98,15 @@ primary_entity:
       name: fault_code
 secondary_entities:
   - entity: switch
+    class: switch
     name: Manual Switch
     dps:
       - id: 2
         type: boolean
         name: switch
-        icon: mdi:light-switch
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 4
         type: integer
@@ -121,7 +119,6 @@ secondary_entities:
           - scale: 60
             step: 60
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
@@ -135,7 +132,6 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -164,7 +160,6 @@ secondary_entities:
         mapping:
           - scale: 10
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:
@@ -180,8 +175,7 @@ secondary_entities:
         name: calibration
         optional: true
   - entity: select
-    name: Temperature unit
-    icon: "mdi:temperature-celsius"
+    translation_key: temperature_unit
     category: config
     dps:
       - id: 20
@@ -189,9 +183,9 @@ secondary_entities:
         name: option
         mapping:
           - dps_val: c
-            value: Celsius
+            value: celsius
           - dps_val: f
-            value: Fahrenheit
+            value: fahrenheit
   - entity: number
     name: Temperature hysteresis
     category: config
@@ -199,7 +193,7 @@ secondary_entities:
     dps:
       - id: 29
         type: integer
-        name: value 
+        name: value
         range:
           min: 10
           max: 90
@@ -282,7 +276,6 @@ secondary_entities:
         type: boolean
         name: switch
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:
@@ -295,5 +288,5 @@ secondary_entities:
           - dps_val: 0
             value: false
           - dps_val: null
-            value:: false
+            value: false
           - value: true

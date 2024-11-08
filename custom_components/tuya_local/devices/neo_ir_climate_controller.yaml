@@ -23,7 +23,7 @@ primary_entity:
             - dps_val: dehumidify
               value: dry
             - dps_val: auto
-              value: heatcool
+              value: heat_cool
     - id: 2
       type: integer
       name: current_temperature
@@ -51,13 +51,13 @@ primary_entity:
       name: fan_mode
       mapping:
         - dps_val: auto
-          value: Auto
+          value: auto
         - dps_val: low
-          value: Low
+          value: low
         - dps_val: middle
-          value: Medium
+          value: medium
         - dps_val: high
-          value: High
+          value: high
     - id: 6
       type: bitfield
       name: fault_code
@@ -81,7 +81,6 @@ primary_entity:
       name: current_humidity
 secondary_entities:
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:
@@ -96,9 +95,8 @@ secondary_entities:
             value: false
           - value: true
   - entity: button
-    name: Filter reset
+    translation_key: filter_reset
     category: config
-    class: restart
     dps:
       - id: 7
         type: boolean
@@ -167,8 +165,7 @@ secondary_entities:
           - dps_val: f
             value: F
   - entity: lock
-    name: Child lock
-    icon: "mdi:hand-back-right-off"
+    translation_key: child_lock
     category: config
     dps:
       - id: 101

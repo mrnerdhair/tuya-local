@@ -97,9 +97,8 @@ primary_entity:
           value: LS Power
 secondary_entities:
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 4
         type: integer
@@ -118,25 +117,24 @@ secondary_entities:
         type: integer
         name: sensor
         unit: Wh
+        optional: true
       - id: 17
         type: integer
         name: coefficient
+        optional: true
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
       - id: 11
         type: integer
         name: sensor
-        force: true
         unit: mA
         class: measurement
       - id: 15
         type: integer
         name: coefficient
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -145,7 +143,6 @@ secondary_entities:
         name: sensor
         unit: W
         class: measurement
-        force: true
         mapping:
           - scale: 10
       - id: 16
@@ -155,7 +152,6 @@ secondary_entities:
         type: integer
         name: limit
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:
@@ -163,7 +159,6 @@ secondary_entities:
         type: integer
         name: sensor
         unit: V
-        force: true
         class: measurement
         mapping:
           - scale: 10
@@ -171,18 +166,17 @@ secondary_entities:
         type: integer
         name: coefficient
   - entity: select
-    name: Temperature unit
+    translation_key: temperature_unit
     category: config
-    icon: "mdi:temperature-celsius"
     dps:
       - id: 20
         type: string
         name: option
         mapping:
           - dps_val: c
-            value: Celsius
+            value: celsius
           - dps_val: f
-            value: Fahrenheit
+            value: fahrenheit
   - entity: number
     name: Vibration
     category: config
@@ -209,7 +203,6 @@ secondary_entities:
           min: -9
           max: 9
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:

@@ -1,12 +1,13 @@
 """Tests for the switch entity."""
+
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.switch import SwitchDeviceClass
 from homeassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
-    UnitOfTime,
     UnitOfEnergy,
     UnitOfPower,
+    UnitOfTime,
 )
 
 from ..const import GRIDCONNECT_2SOCKET_PAYLOAD
@@ -55,9 +56,9 @@ class TestGridConnectDoubleSwitch(
             INITIAL_DPS,
             self.entities.get("select_initial_state"),
             {
-                "on": "On",
-                "off": "Off",
-                "memory": "Last State",
+                "on": "on",
+                "off": "off",
+                "memory": "memory",
             },
         )
         # Master switch must go last, otherwise its tests interfere with

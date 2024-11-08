@@ -26,10 +26,6 @@ primary_entity:
           value: land_check
         - dps_val: 64
           value: collision
-    - id: 14
-      name: battery
-      type: integer
-      readonly: true
     - id: 25
       type: boolean
       name: activate
@@ -53,12 +49,12 @@ primary_entity:
       name: command
       mapping:
         - dps_val: standby
-          value: standby
+          value: stop
         - dps_val: smart
           value: smart
         - dps_val: spiral
           value: clean_spot
-        - dps_value: single
+        - dps_val: single
           value: single_room
         - dps_val: wall_follow
           value: wall_follow
@@ -93,6 +89,14 @@ primary_entity:
         - dps_val: high
           value: High
 secondary_entities:
+  - entity: sensor
+    class: battery
+    dps:
+      - id: 14
+        type: integer
+        name: sensor
+        unit: "%"
+        class: measurement
   - entity: switch
     name: Mute voice
     icon: "mdi:account-voice"

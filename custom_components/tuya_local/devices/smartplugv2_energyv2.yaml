@@ -1,4 +1,9 @@
 name: Energy monitoring smartplug
+products:
+  - id: jdj6ccklup7btq3a
+    name: Tongou TO-Q-SY1-JWT
+  - id: w906qkrrhd3otiwd
+    name: Moes ME322
 primary_entity:
   entity: switch
   class: outlet
@@ -15,13 +20,20 @@ primary_entity:
       name: fault_code
     - id: 42
       type: string
+      name: cycle_timer
+      optional: true
+    - id: 43
+      type: string
       name: random_timer
+      optional: true
+    - id: 44
+      type: string
+      name: inching
       optional: true
 secondary_entities:
   - entity: number
     category: config
-    name: Timer
-    icon: "mdi:timer"
+    translation_key: timer
     dps:
       - id: 9
         type: integer
@@ -40,14 +52,15 @@ secondary_entities:
       - id: 17
         name: sensor
         type: integer
+        optional: true
         unit: Wh
       - id: 25
         type: integer
         name: calibration
+        optional: true
   - entity: sensor
     category: diagnostic
     class: current
-    name: Current
     dps:
       - id: 18
         name: sensor
@@ -58,10 +71,10 @@ secondary_entities:
       - id: 23
         type: integer
         name: calibration
+        optional: true
   - entity: sensor
     category: diagnostic
     class: power
-    name: Power
     dps:
       - id: 19
         name: sensor
@@ -74,10 +87,10 @@ secondary_entities:
       - id: 24
         type: integer
         name: calibration
+        optional: true
   - entity: sensor
     category: diagnostic
     class: voltage
-    name: Voltage
     dps:
       - id: 20
         name: sensor
@@ -90,10 +103,10 @@ secondary_entities:
       - id: 22
         type: integer
         name: calibration
+        optional: true
   - entity: binary_sensor
     class: problem
     category: diagnostic
-    name: Error
     dps:
       - id: 26
         type: bitfield
@@ -104,22 +117,28 @@ secondary_entities:
           - value: true
   - entity: select
     category: config
-    name: Initial state
-    icon: "mdi:toggle-switch"
+    translation_key: initial_state
     dps:
       - id: 38
         type: string
         name: option
         mapping:
           - dps_val: "on"
-            value: "On"
+            value: "on"
           - dps_val: "off"
-            value: "Off"
+            value: "off"
           - dps_val: memory
-            value: "Last State"
+            value: memory
+  - entity: switch
+    name: Overcharge protection
+    category: config
+    dps:
+      - id: 39
+        type: boolean
+        name: switch
+        optional: true
   - entity: lock
-    name: Child lock
-    icon: "mdi:hand-back-right-off"
+    translation_key: child_lock
     category: config
     dps:
       - id: 41
@@ -135,10 +154,26 @@ secondary_entities:
         name: option
         optional: true
         mapping:
-          - dps_val: relay 
+          - dps_val: relay
             value: State
           - dps_val: pos
             value: Position
           - dps_val: "on"
             value: "On"
-
+  - entity: binary_sensor
+    name: Online
+    class: connectivity
+    category: diagnostic
+    dps:
+      - id: 66
+        type: boolean
+        optional: true
+        name: sensor
+        mapping:
+          - dps_val: offline
+            value: false
+          - dps_val: online
+            value: true
+          # if missing, assume online as we can reach it
+          - dps_val: null
+            value: true

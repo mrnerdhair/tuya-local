@@ -13,17 +13,12 @@ primary_entity:
       type: integer
 secondary_entities:
   - entity: lock
-    name: Child lock
+    translation_key: child_lock
     category: config
     dps:
       - id: 40
         name: lock
         type: boolean
-        mapping:
-          - dps_val: true
-            icon: "mdi:account-lock"
-          - dps_val: false
-            icon: "mdi:account"
   - entity: switch
     class: outlet
     name: Outlet 1
@@ -52,7 +47,6 @@ secondary_entities:
   - entity: sensor
     class: current
     category: diagnostic
-    name: Current
     dps:
       - id: 18
         name: sensor
@@ -66,7 +60,6 @@ secondary_entities:
   - entity: sensor
     class: power
     category: diagnostic
-    name: Power
     dps:
       - id: 19
         name: sensor
@@ -82,7 +75,6 @@ secondary_entities:
   - entity: sensor
     class: voltage
     category: diagnostic
-    name: Voltage
     dps:
       - id: 20
         name: sensor
@@ -97,22 +89,21 @@ secondary_entities:
         type: integer
   - entity: select
     category: config
-    name: Initial state
-    icon: "mdi:toggle-switch"
+    translation_key: initial_state
     dps:
       - id: 38
         name: option
         type: string
         mapping:
           - dps_val: "on"
-            value: "On"
+            value: "on"
           - dps_val: "off"
-            value: "Off"
+            value: "off"
           - dps_val: memory
-            value: Last State
+            value: memory
   - entity: number
     name: Timer 1
-    icon: "mdi:timer"
+    translation_key: timer
     category: config
     dps:
       - id: 9
@@ -124,7 +115,7 @@ secondary_entities:
           max: 86400
   - entity: number
     name: Timer 2
-    icon: "mdi:timer"
+    translation_key: timer
     category: config
     dps:
       - id: 10

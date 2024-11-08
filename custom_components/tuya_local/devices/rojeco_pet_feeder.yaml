@@ -1,7 +1,7 @@
 name: Pet feeder
-product:
+products:
   - id: hbiwalfrzqfzv2cq
-    name: Rojeco PTM-001 
+    name: Rojeco PTM-001
 primary_entity:
   entity: button
   icon: "mdi:food-drumstick"
@@ -10,6 +10,7 @@ primary_entity:
     - id: 2
       type: boolean
       name: button
+      optional: true
     - id: 13
       type: bitfield
       name: fault_code
@@ -23,6 +24,7 @@ secondary_entities:
         name: sensor
         type: integer
         unit: portions
+        optional: true
   - entity: sensor
     category: diagnostic
     name: Feed state
@@ -60,8 +62,7 @@ secondary_entities:
         type: boolean
         name: switch
   - entity: light
-    icon: "mdi:alarm-light"
-    name: Indicator
+    translation_key: indicator
     category: config
     dps:
       - id: 17
@@ -80,3 +81,14 @@ secondary_entities:
           - dps_val: 2
             value: true
           - value: false
+  - entity: sensor
+    name: Battery level
+    class: battery
+    category: diagnostic
+    dps:
+      - id: 10
+        type: integer
+        name: sensor
+        unit: "%"
+        class: measurement
+        optional: true

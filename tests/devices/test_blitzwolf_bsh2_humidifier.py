@@ -41,13 +41,13 @@ class TestBlitzwolfSH2Humidifier(MultiSelectTests, TuyaDeviceTestCase):
                     "name": "select_timer",
                     "dps": TIMER_DP,
                     "options": {
-                        "cancel": "Off",
-                        "2h": "2 hours",
-                        "4h": "4 hours",
-                        "6h": "6 hours",
-                        "8h": "8 hours",
-                        "10h": "10 hours",
-                        "12h": "12 hours",
+                        "cancel": "cancel",
+                        "2h": "2h",
+                        "4h": "4h",
+                        "6h": "6h",
+                        "8h": "8h",
+                        "10h": "10h",
+                        "12h": "12h",
                     },
                 },
             ]
@@ -57,7 +57,9 @@ class TestBlitzwolfSH2Humidifier(MultiSelectTests, TuyaDeviceTestCase):
     def test_supported_features(self):
         self.assertEqual(
             self.subject.supported_features,
-            FanEntityFeature.SET_SPEED,
+            FanEntityFeature.SET_SPEED
+            | FanEntityFeature.TURN_OFF
+            | FanEntityFeature.TURN_ON,
         )
 
     def test_speed(self):

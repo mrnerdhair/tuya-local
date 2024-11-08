@@ -18,9 +18,8 @@ primary_entity:
       name: inching
 secondary_entities:
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 9
         type: integer
@@ -42,7 +41,6 @@ secondary_entities:
         unit: Wh
         optional: true
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
@@ -52,7 +50,6 @@ secondary_entities:
         unit: mA
         class: measurement
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -64,7 +61,6 @@ secondary_entities:
         mapping:
           - scale: 10
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:
@@ -76,8 +72,7 @@ secondary_entities:
         mapping:
           - scale: 10
   - entity: select
-    name: Initial state
-    icon: "mdi:toggle-switch"
+    translation_key: initial_state
     category: config
     dps:
       - id: 38
@@ -85,11 +80,11 @@ secondary_entities:
         name: option
         mapping:
           - dps_val: power_off
-            value: "Off"
+            value: "off"
           - dps_val: power_on
-            value: "On"
+            value: "on"
           - dps_val: last
-            value: "Last state"
+            value: memory
   - entity: select
     name: Backlight
     icon: "mdi:television-ambient-light"
@@ -106,14 +101,9 @@ secondary_entities:
           - dps_val: none
             value: "Off"
   - entity: lock
-    name: Child lock
-    icon: "mdi:hand-back-right-off"
+    translation_key: child_lock
     category: config
     dps:
       - id: 40
         type: boolean
         name: lock
-
-
-
-

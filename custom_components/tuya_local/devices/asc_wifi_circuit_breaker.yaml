@@ -1,16 +1,15 @@
 name: ASC (Wi-Fi)
-product:
+products:
   - id: yrzel5nutomegk6z
 primary_entity:
   entity: switch
   dps:
     - id: 1
       name: switch
-      type: boolean     
+      type: boolean
 secondary_entities:
   - entity: number
-    name: Countdown
-    icon: "mdi:timer"
+    translation_key: timer
     category: config
     dps:
       - id: 7
@@ -20,11 +19,10 @@ secondary_entities:
           min: 0
           max: 86400
         mapping:
-          - scale: 0
-            step: 1
-        unit: s
+          - scale: 60
+            step: 60
+        unit: min
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
@@ -36,7 +34,6 @@ secondary_entities:
           - scale: 1000
         optional: true
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:
@@ -48,7 +45,6 @@ secondary_entities:
           - scale: 10
         optional: true
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -59,9 +55,3 @@ secondary_entities:
         optional: true
         mapping:
           - scale: 10
-
-        
-
-
-            
-

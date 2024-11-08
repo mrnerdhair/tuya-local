@@ -1,19 +1,14 @@
 from homeassistant.components.button import ButtonDeviceClass
-from homeassistant.components.sensor import SensorDeviceClass
+from homeassistant.components.sensor import STATE_CLASS_MEASUREMENT, SensorDeviceClass
 from homeassistant.components.vacuum import (
     STATE_CLEANING,
-    STATE_DOCKED,
     STATE_ERROR,
     STATE_IDLE,
     STATE_PAUSED,
     STATE_RETURNING,
     VacuumEntityFeature,
 )
-from homeassistant.const import (
-    AREA_SQUARE_METERS,
-    UnitOfTime,
-    PERCENTAGE,
-)
+from homeassistant.const import AREA_SQUARE_METERS, PERCENTAGE, UnitOfTime
 
 from ..const import KYVOL_E30_VACUUM_PAYLOAD
 from ..helpers import assert_device_properties_set
@@ -65,7 +60,6 @@ class TestKyvolE30Vacuum(MultiButtonTests, MultiSensorTests, TuyaDeviceTestCase)
                 {
                     "dps": RSTFILTER_DPS,
                     "name": "button_filter_reset",
-                    "device_class": ButtonDeviceClass.RESTART,
                 },
             ]
         )
@@ -102,6 +96,13 @@ class TestKyvolE30Vacuum(MultiButtonTests, MultiSensorTests, TuyaDeviceTestCase)
                     "dps": STATUS_DPS,
                     "name": "sensor_status",
                 },
+                {
+                    "dps": BATTERY_DPS,
+                    "name": "sensor_battery",
+                    "unit": PERCENTAGE,
+                    "device_class": SensorDeviceClass.BATTERY,
+                    "state_class": STATE_CLASS_MEASUREMENT,
+                },
             ],
         )
 
@@ -126,7 +127,6 @@ class TestKyvolE30Vacuum(MultiButtonTests, MultiSensorTests, TuyaDeviceTestCase)
                 VacuumEntityFeature.STATE
                 | VacuumEntityFeature.STATUS
                 | VacuumEntityFeature.SEND_COMMAND
-                | VacuumEntityFeature.BATTERY
                 | VacuumEntityFeature.FAN_SPEED
                 | VacuumEntityFeature.TURN_ON
                 | VacuumEntityFeature.TURN_OFF
@@ -137,10 +137,6 @@ class TestKyvolE30Vacuum(MultiButtonTests, MultiSensorTests, TuyaDeviceTestCase)
                 | VacuumEntityFeature.CLEAN_SPOT
             ),
         )
-
-    def test_battery_level(self):
-        self.dps[BATTERY_DPS] = 50
-        self.assertEqual(self.subject.battery_level, 50)
 
     def test_status(self):
         self.dps[COMMAND_DPS] = "standby"

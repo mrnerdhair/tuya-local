@@ -1,9 +1,6 @@
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
-from homeassistant.components.climate.const import (
-    ClimateEntityFeature,
-    HVACMode,
-)
-from homeassistant.const import UnitOfTime, UnitOfTemperature
+from homeassistant.components.climate.const import ClimateEntityFeature, HVACMode
+from homeassistant.const import UnitOfTemperature, UnitOfTime
 
 from ..const import GECO_HEATER_PAYLOAD
 from ..helpers import assert_device_properties_set
@@ -36,8 +33,8 @@ class TestGoldairGECOHeater(
         self.setUpTargetTemperature(
             TEMPERATURE_DPS,
             self.subject,
-            min=15,
-            max=35,
+            min=15.0,
+            max=35.0,
         )
         self.setUpBasicLock(LOCK_DPS, self.entities.get("lock_child_lock"))
         self.setUpBasicNumber(
@@ -48,7 +45,7 @@ class TestGoldairGECOHeater(
         )
         self.setUpBasicBinarySensor(
             ERROR_DPS,
-            self.entities.get("binary_sensor_error"),
+            self.entities.get("binary_sensor_problem"),
             device_class=BinarySensorDeviceClass.PROBLEM,
             testdata=(1, 0),
         )
@@ -56,22 +53,17 @@ class TestGoldairGECOHeater(
             [
                 "lock_child_lock",
                 "number_timer",
-                "binary_sensor_error",
+                "binary_sensor_problem",
             ]
         )
 
     def test_supported_features(self):
         self.assertEqual(
             self.subject.supported_features,
-            ClimateEntityFeature.TARGET_TEMPERATURE,
+            ClimateEntityFeature.TARGET_TEMPERATURE
+            | ClimateEntityFeature.TURN_OFF
+            | ClimateEntityFeature.TURN_ON,
         )
-
-    def test_icon(self):
-        self.dps[HVACMODE_DPS] = True
-        self.assertEqual(self.subject.icon, "mdi:radiator")
-
-        self.dps[HVACMODE_DPS] = False
-        self.assertEqual(self.subject.icon, "mdi:radiator-disabled")
 
     def test_temperature_unit_returns_celsius(self):
         self.assertEqual(self.subject.temperature_unit, UnitOfTemperature.CELSIUS)

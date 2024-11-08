@@ -1,12 +1,12 @@
 from homeassistant.components.climate.const import (
-    ClimateEntityFeature,
     FAN_AUTO,
     FAN_HIGH,
     FAN_LOW,
     FAN_MEDIUM,
-    HVACMode,
     PRESET_COMFORT,
     PRESET_ECO,
+    ClimateEntityFeature,
+    HVACMode,
 )
 from homeassistant.const import PRECISION_TENTHS, UnitOfTemperature
 
@@ -63,6 +63,8 @@ class TestBecaBAC002Thermostat(
                 ClimateEntityFeature.FAN_MODE
                 | ClimateEntityFeature.PRESET_MODE
                 | ClimateEntityFeature.TARGET_TEMPERATURE
+                | ClimateEntityFeature.TURN_OFF
+                | ClimateEntityFeature.TURN_ON
             ),
         )
 

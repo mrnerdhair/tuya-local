@@ -4,7 +4,6 @@ products:
     name: EAI-90
 primary_entity:
   entity: sensor
-  name: Energy
   class: energy
   dps:
     - id: 1
@@ -28,7 +27,6 @@ primary_entity:
       optional: true
 secondary_entities:
   - entity: binary_sensor
-    name: Fault
     class: problem
     category: diagnostic
     dps:
@@ -60,7 +58,7 @@ secondary_entities:
           - scale: 100
   - entity: button
     name: Clear energy
-    class: reset
+    class: restart
     category: config
     dps:
       - id: 14
@@ -87,7 +85,7 @@ secondary_entities:
         name: switch
   - entity: button
     name: Clear event
-    class: reset
+    class: restart
     category: config
     dps:
       - id: 20
@@ -105,7 +103,7 @@ secondary_entities:
         optional: true
         unit: V
         mapping:
-          - mask: "FFFFFF0000000000000000"
+          - mask: "FFFF000000000000"
             scale: 10
   - entity: sensor
     name: Current A
@@ -118,7 +116,7 @@ secondary_entities:
         optional: true
         unit: A
         mapping:
-          - mask: "000000FFFFFF0000000000"
+          - mask: "0000FFFFFF000000"
             scale: 1000
   - entity: sensor
     name: Power A
@@ -131,5 +129,5 @@ secondary_entities:
         optional: true
         unit: kW
         mapping:
-          - mask: "000000000000FFFFFF0000"
+          - mask: "0000000000FFFFFF"
             scale: 1000

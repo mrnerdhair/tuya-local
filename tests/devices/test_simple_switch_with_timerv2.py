@@ -1,5 +1,5 @@
 """Tests for a simple switch with timer"""
-from homeassistant.components.switch import SwitchDeviceClass
+
 from homeassistant.const import UnitOfTime
 
 from ..const import TIMED_SOCKETV2_PAYLOAD
@@ -25,10 +25,7 @@ class TestTimedSwitch(BasicNumberTests, SwitchableTests, TuyaDeviceTestCase):
             scale=60,
             unit=UnitOfTime.MINUTES,
         )
-        self.mark_secondary(["number_timer", "select_power_on_state"])
-
-    def test_device_class_is_outlet(self):
-        self.assertEqual(self.subject.device_class, SwitchDeviceClass.OUTLET)
+        self.mark_secondary(["number_timer", "select_initial_state"])
 
     def test_extra_state_attributes_set(self):
         self.assertDictEqual(

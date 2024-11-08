@@ -1,5 +1,5 @@
 from homeassistant.components.sensor import SensorDeviceClass
-from homeassistant.const import UnitOfTime, UnitOfTemperature
+from homeassistant.const import UnitOfTemperature, UnitOfTime
 
 from ..const import MOES_TEMP_HUMID_PAYLOAD
 from ..mixins.number import MultiNumberTests
@@ -43,7 +43,7 @@ class TestMoesTempHumidity(
         self.setUpForConfig("moes_temp_humidity.yaml", MOES_TEMP_HUMID_PAYLOAD)
         self.setUpBasicSensor(
             TEMP_DPS,
-            self.entities.get("sensor_current_temperature"),
+            self.entities.get("sensor_temperature"),
             unit=UnitOfTemperature.CELSIUS,
             device_class=SensorDeviceClass.TEMPERATURE,
             state_class="measurement",
@@ -85,11 +85,11 @@ class TestMoesTempHumidity(
                 },
                 {
                     "dps": INIT_DPS,
-                    "name": "select_power_on_state",
+                    "name": "select_initial_state",
                     "options": {
-                        "on": "On",
-                        "off": "Off",
-                        "memory": "Last State",
+                        "on": "on",
+                        "off": "off",
+                        "memory": "memory",
                     },
                 },
             ]
@@ -119,14 +119,14 @@ class TestMoesTempHumidity(
                 "number_minimum_humidity",
                 "number_timer_1",
                 "number_timer_2",
-                "select_power_on_state",
+                "select_initial_state",
                 "number_high_temperature_switch_level",
                 "switch_high_temperature_switch",
                 "number_high_temperature_alarm_level",
                 "number_low_temperature_switch_level",
                 "switch_low_temperature_switch",
                 "number_low_temperature_alarm_level",
-                "binary_sensor_fault",
+                "binary_sensor_problem",
             ]
         )
 

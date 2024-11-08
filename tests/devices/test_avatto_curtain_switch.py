@@ -1,4 +1,5 @@
 """Tests for the Avatto roller blinds controller."""
+
 from homeassistant.components.cover import CoverDeviceClass, CoverEntityFeature
 
 from ..const import AVATTO_CURTAIN_PAYLOAD
@@ -18,7 +19,7 @@ class TestAvattoCurtainSwitch(BasicLightTests, TuyaDeviceTestCase):
             "avatto_curtain_switch.yaml",
             AVATTO_CURTAIN_PAYLOAD,
         )
-        self.subject = self.entities.get("cover")
+        self.subject = self.entities.get("cover_curtain")
         self.setUpBasicLight(
             BACKLIGHT_DP,
             self.entities.get("light_backlight"),

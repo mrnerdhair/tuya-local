@@ -9,6 +9,7 @@ primary_entity:
       type: string
       name: unlock_method_register
       optional: true
+      sensitive: true
     - id: 2
       type: string
       name: unlock_method_delete
@@ -16,15 +17,23 @@ primary_entity:
     - id: 12
       type: integer
       name: unlock_fingerprint
+      persist: false
+      optional: true
     - id: 19
       type: integer
       name: unlock_app
+      persist: false
+      optional: true
+    - id: 33
+      type: boolean
+      name: lock
     - id: 54
       type: string
       name: sync_method
+      optional: true
+      sensitive: true
 secondary_entities:
   - entity: sensor
-    name: Battery
     class: battery
     category: diagnostic
     dps:
@@ -32,13 +41,3 @@ secondary_entities:
         type: integer
         name: sensor
         unit: "%"
-  - entity: switch
-    name: Auto lock
-    category: config
-    icon: "mdi:lock-clock"
-    dps:
-      - id: 33
-        type: boolean
-        name: switch
-
-

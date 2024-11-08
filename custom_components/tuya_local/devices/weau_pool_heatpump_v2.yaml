@@ -3,6 +3,7 @@ products:
   - id: zqwet1zcvj2wcxzw
 primary_entity:
   entity: climate
+  translation_only_key: pool_heatpump
   dps:
     - id: 1
       type: boolean
@@ -11,15 +12,22 @@ primary_entity:
         - dps_val: false
           value: "off"
         - dps_val: true
-          constraint: mode
+          constraint: preset_mode
           conditions:
             - dps_val: eheat
               value: heat
             - dps_val: ecool
               value: cool
+            - dps_val: auto
+              value: heat_cool
+            - dps_val: [bheat, sheat]
+              value: heat
+            - dps_val: [bcool, scool]
+              value: cool
     - id: 9
       type: integer
       name: temperature
+      unit: C
       range:
         min: 7
         max: 60
@@ -30,8 +38,22 @@ primary_entity:
         - scale: 10
     - id: 2
       type: string
-      name: mode
-      hidden: true
+      name: preset_mode
+      mapping:
+        - dps_val: sheat
+          value: quiet_heat
+        - dps_val: bheat
+          value: quick_heat
+        - dps_val: eheat
+          value: smart_heat
+        - dps_val: scool
+          value: quiet_cool
+        - dps_val: bcool
+          value: quick_cool
+        - dps_val: ecool
+          value: smart_cool
+        - dps_val: auto
+          value: auto
     - id: 20
       type: bitfield
       name: fault
@@ -87,7 +109,6 @@ primary_entity:
 secondary_entities:
   - entity: binary_sensor
     class: problem
-    name: Fault
     category: diagnostic
     dps:
       - id: 20

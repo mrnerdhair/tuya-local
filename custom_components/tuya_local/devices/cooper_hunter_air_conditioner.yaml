@@ -4,6 +4,7 @@ products:
     name: Cooper and Hunter Nordic Evo NG
 primary_entity:
   entity: climate
+  translation_only_key: aircon_extra
   dps:
     - id: 1
       name: hvac_mode
@@ -11,24 +12,18 @@ primary_entity:
       mapping:
         - dps_val: false
           value: "off"
-          icon: "mdi:hvac-off"
         - dps_val: true
           constraint: mode
           conditions:
             - dps_val: auto
-              icon: "mdi:hvac"
               value: heat_cool
             - dps_val: cold
-              icon: "mdi:snowflake"
               value: cool
             - dps_val: hot
-              icon: "mdi:fire"
               value: heat
             - dps_val: wet
-              icon: "mdi:water-off"
               value: dry
             - dps_val: wind
-              icon: "mdi:fan"
               value: fan_only
 
     - id: 2
@@ -50,7 +45,6 @@ primary_entity:
       type: integer
       mapping:
         - scale: 10
-          #step: 5
     - id: 4
       name: mode
       type: string
@@ -60,19 +54,19 @@ primary_entity:
       type: string
       mapping:
         - dps_val: auto
-          value: Auto
+          value: auto
         - dps_val: quiet
-          value: Quiet
+          value: quiet
         - dps_val: fan1
-          value: Slow
+          value: low
         - dps_val: fan2
-          value: Low
+          value: medlow
         - dps_val: fan3
-          value: Medium
+          value: medium
         - dps_val: fan4
-          value: High
+          value: medhigh
         - dps_val: fan5
-          value: Super High
+          value: high
     - id: 31
       name: swing_mode
       type: string
@@ -81,16 +75,16 @@ primary_entity:
           value: "off"
         - dps_val: "on"
           value: "on"
-        - dps_val: "angle1" #Topmost
-          value: "Topmost"
-        - dps_val: "angle2" #Top
-          value: "Top"
-        - dps_val: "angle3" #Middle
-          value: "Middle"
-        - dps_val: "angle4" #Down
-          value: "Down"
-        - dps_val: "angle5" #Downmost
-          value: "Downmost"
+        - dps_val: "angle1"
+          value: "topmost"
+        - dps_val: "angle2"
+          value: "top"
+        - dps_val: "angle3"
+          value: "middle"
+        - dps_val: "angle4"
+          value: "down"
+        - dps_val: "angle5"
+          value: "downmost"
     - id: 19
       name: temperature_unit
       type: string
@@ -151,35 +145,36 @@ secondary_entities:
       - id: 9
         name: switch
         type: boolean
-        constraint: mode
-        conditions:
-          - dps_val: auto
-            invalid: true
-          - dps_val: wind
-            invalid: true
-          - dps_val: hot
-            invalid: true
+        mapping:
+          - constraint: mode
+            conditions:
+              - dps_val: auto
+                invalid: true
+              - dps_val: wind
+                invalid: true
+              - dps_val: hot
+                invalid: true
+      - id: 4
+        name: mode
+        type: string
+        hidden: true
   - entity: switch
-    name: Ioniser
+    translation_key: ionizer
     category: config
-    icon: "mdi:sun-wireless"
     dps:
       - id: 11
         name: switch
         type: boolean
   - entity: light
-    name: Display
+    translation_key: display
     category: config
-    class: light
-    icon: "mdi:television-ambient-light"
     dps:
       - id: 13
         name: switch
         type: boolean
   - entity: lock
-    name: Child lock
+    translation_key: child_lock
     category: config
-    icon: "mdi:lock"
     dps:
       - id: 14
         name: lock
@@ -193,9 +188,8 @@ secondary_entities:
         name: switch
         type: boolean
   - entity: switch
-    name: Sleep
+    translation_key: sleep
     category: config
-    icon: "mdi:power-sleep"
     dps:
       - id: 25
         name: switch
@@ -224,18 +218,16 @@ secondary_entities:
           - dps_val: "off"
             value: false
   - entity: binary_sensor
-    name: Defrosting
+    translation_key: defrost
     category: diagnostic
-    icon: "mdi:snowflake"
     dps:
       - id: 181
         name: sensor
         type: boolean
         optional: true
   - entity: switch
-    name: Anti-frost
+    translation_key: anti_frost
     category: config
-    icon: "mdi:snowflake"
     dps:
       - id: 180
         name: switch

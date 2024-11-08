@@ -19,9 +19,8 @@ primary_entity:
       type: string
 secondary_entities:
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 9
         name: value
@@ -33,20 +32,19 @@ secondary_entities:
           - scale: 60
             step: 60
   - entity: select
-    name: Restore power state
+    translation_key: initial_state
     category: config
-    icon: "mdi:toggle-switch"
     dps:
       - id: 38
         type: string
         name: option
         mapping:
           - dps_val: "0"
-            value: "Off"
+            value: "off"
           - dps_val: "1"
-            value: "On"
+            value: "on"
           - dps_val: "2"
-            value: Remember last state
+            value: memory
   - entity: sensor
     name: Energy
     category: diagnostic
@@ -57,7 +55,6 @@ secondary_entities:
         optional: true
         unit: Wh
   - entity: sensor
-    name: Current
     class: current
     category: diagnostic
     dps:
@@ -68,7 +65,6 @@ secondary_entities:
         force: true
         unit: mA
   - entity: sensor
-    name: Power
     class: power
     category: diagnostic
     dps:
@@ -81,7 +77,6 @@ secondary_entities:
         mapping:
           - scale: 10
   - entity: sensor
-    name: Voltage
     class: voltage
     category: diagnostic
     dps:

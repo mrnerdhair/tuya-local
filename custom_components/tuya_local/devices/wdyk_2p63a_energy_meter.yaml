@@ -4,7 +4,6 @@ products:
     name: WDYK 2P63A
 primary_entity:
   entity: sensor
-  name: Energy
   class: energy
   dps:
     - id: 1
@@ -12,6 +11,7 @@ primary_entity:
       name: sensor
       unit: kWh
       class: total_increasing
+      optional: true
       mapping:
         - scale: 100
     - id: 6
@@ -35,6 +35,10 @@ primary_entity:
     - id: 19
       type: string
       name: breaker_number
+    - id: 116
+      type: string
+      name: card_id
+      optional: true
 secondary_entities:
   - entity: binary_sensor
     name: Short circuit
@@ -259,6 +263,7 @@ secondary_entities:
         name: button
   - entity: sensor
     name: Energy balance
+    class: energy_storage
     category: diagnostic
     dps:
       - id: 13
@@ -271,6 +276,7 @@ secondary_entities:
   - entity: number
     name: Charge energy
     category: config
+    class: energy_storage
     icon: "mdi:cash"
     dps:
       - id: 14
@@ -302,7 +308,7 @@ secondary_entities:
         optional: true
         unit: V
         mapping:
-          - mask: "FFFFFF0000000000000000"
+          - mask: "FFFF0000000000000000"
             scale: 10
   - entity: sensor
     name: Current A
@@ -315,7 +321,7 @@ secondary_entities:
         optional: true
         unit: A
         mapping:
-          - mask: "000000FFFFFF0000000000"
+          - mask: "0000FFFFFF0000000000"
             scale: 1000
   - entity: sensor
     name: Power A
@@ -328,7 +334,7 @@ secondary_entities:
         optional: true
         unit: kW
         mapping:
-          - mask: "000000000000FFFFFF0000"
+          - mask: "0000000000FFFFFF0000"
             scale: 1000
   - entity: sensor
     name: Voltage B
@@ -341,7 +347,7 @@ secondary_entities:
         optional: true
         unit: V
         mapping:
-          - mask: "FFFFFF0000000000000000"
+          - mask: "FFFF000000000000"
             scale: 10
   - entity: sensor
     name: Current B
@@ -354,7 +360,7 @@ secondary_entities:
         optional: true
         unit: A
         mapping:
-          - mask: "000000FFFFFF0000000000"
+          - mask: "0000FFFFFF000000"
             scale: 1000
   - entity: sensor
     name: Power B
@@ -367,7 +373,7 @@ secondary_entities:
         optional: true
         unit: kW
         mapping:
-          - mask: "000000000000FFFFFF0000"
+          - mask: "0000000000FFFFFF"
             scale: 1000
   - entity: sensor
     name: Voltage C
@@ -380,7 +386,7 @@ secondary_entities:
         optional: true
         unit: V
         mapping:
-          - mask: "FFFFFF0000000000000000"
+          - mask: "FFFF000000000000"
             scale: 10
   - entity: sensor
     name: Current C
@@ -393,7 +399,7 @@ secondary_entities:
         optional: true
         unit: A
         mapping:
-          - mask: "000000FFFFFF0000000000"
+          - mask: "0000FFFFFF000000"
             scale: 1000
   - entity: sensor
     name: Power C
@@ -406,5 +412,90 @@ secondary_entities:
         optional: true
         unit: kW
         mapping:
-          - mask: "000000000000FFFFFF0000"
+          - mask: "0000000000FFFFFF"
             scale: 1000
+  - entity: number
+    name: Overvoltage threshold
+    category: config
+    class: voltage
+    icon: "mdi:flash-alert"
+    dps:
+      - id: 101
+        type: integer
+        name: value
+        unit: V
+        range:
+          min: 230
+          max: 300
+  - entity: number
+    name: Undervoltage threshold
+    category: config
+    class: voltage
+    icon: "mdi:flash-alert"
+    dps:
+      - id: 102
+        type: integer
+        name: value
+        unit: V
+        range:
+          min: 90
+          max: 210
+  - entity: number
+    name: Overcurrent threshold
+    category: config
+    class: current
+    icon: "mdi:fuse-alert"
+    dps:
+      - id: 103
+        type: integer
+        name: value
+        unit: A
+        range:
+          min: 1
+          max: 63
+  - entity: number
+    name: Leakage current
+    category: config
+    class: current
+    dps:
+      - id: 104
+        type: integer
+        name: value
+        unit: mA
+        range:
+          min: 10
+          max: 100
+  - entity: switch
+    name: Mute alarm
+    icon: "mdi:volume-mute"
+    category: config
+    dps:
+      - id: 105
+        type: boolean
+        name: switch
+  - entity: binary_sensor
+    name: Earth leak
+    class: safety
+    category: diagnostic
+    dps:
+      - id: 106
+        type: boolean
+        name: sensor
+  - entity: button
+    name: Reset total energy
+    class: restart
+    category: config
+    dps:
+      - id: 115
+        type: boolean
+        name: button
+        optional: true
+  - entity: button
+    name: Reset balance energy
+    class: restart
+    category: config
+    dps:
+      - id: 12
+        type: boolean
+        name: button
+        optional: true

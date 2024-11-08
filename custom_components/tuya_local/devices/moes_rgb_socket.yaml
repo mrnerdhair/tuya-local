@@ -8,7 +8,7 @@ primary_entity:
       name: switch
 secondary_entities:
   - entity: light
-    name: Night light
+    translation_key: nightlight
     dps:
       - id: 1
         name: switch
@@ -76,8 +76,7 @@ secondary_entities:
         type: hex
   - entity: number
     category: config
-    icon: "mdi:timer"
-    name: Timer
+    translation_key: timer
     dps:
       - id: 102
         type: integer
@@ -91,7 +90,6 @@ secondary_entities:
           - scale: 60
             step: 60
   - entity: sensor
-    name: Current
     category: diagnostic
     class: current
     dps:
@@ -99,10 +97,8 @@ secondary_entities:
         name: sensor
         type: integer
         class: measurement
-        force: true
         unit: mA
   - entity: sensor
-    name: Power
     category: diagnostic
     class: power
     dps:
@@ -110,12 +106,10 @@ secondary_entities:
         name: sensor
         type: integer
         class: measurement
-        force: true
         unit: W
         mapping:
           - scale: 10
   - entity: sensor
-    name: Voltage
     category: diagnostic
     class: voltage
     dps:
@@ -123,7 +117,6 @@ secondary_entities:
         name: sensor
         type: integer
         class: measurement
-        force: true
         unit: V
         mapping:
           - scale: 10

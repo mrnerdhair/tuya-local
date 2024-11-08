@@ -1,11 +1,6 @@
-from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.components.fan import FanEntityFeature
 from homeassistant.components.humidifier import HumidifierEntityFeature
-from homeassistant.components.humidifier.const import (
-    MODE_NORMAL,
-    MODE_AUTO,
-    MODE_SLEEP,
-)
+from homeassistant.components.humidifier.const import MODE_AUTO, MODE_NORMAL, MODE_SLEEP
 from homeassistant.components.sensor import SensorDeviceClass
 
 from ..const import EANONS_HUMIDIFIER_PAYLOAD
@@ -39,7 +34,7 @@ class TestEanonsHumidifier(
 
     def setUp(self):
         self.setUpForConfig("eanons_humidifier.yaml", EANONS_HUMIDIFIER_PAYLOAD)
-        self.subject = self.entities.get("humidifier")
+        self.subject = self.entities.get("humidifier_humidifier")
         self.setUpSwitchable(HVACMODE_DPS, self.subject)
         self.fan = self.entities.get("fan_intensity")
         self.setUpBasicSwitch(SWITCH_DPS, self.entities.get("switch_uv_sterilization"))
@@ -47,46 +42,55 @@ class TestEanonsHumidifier(
             TIMERHR_DPS,
             self.entities.get("select_timer"),
             {
-                "cancel": "Off",
-                "1": "1 hour",
-                "2": "2 hours",
-                "3": "3 hours",
-                "4": "4 hours",
-                "5": "5 hours",
-                "6": "6 hours",
-                "7": "7 hours",
-                "8": "8 hours",
-                "9": "9 hours",
-                "10": "10 hours",
-                "11": "11 hours",
-                "12": "12 hours",
+                "cancel": "cancel",
+                "1": "1h",
+                "2": "2h",
+                "3": "3h",
+                "4": "4h",
+                "5": "5h",
+                "6": "6h",
+                "7": "7h",
+                "8": "8h",
+                "9": "9h",
+                "10": "10h",
+                "11": "11h",
+                "12": "12h",
             },
         )
         self.setUpBasicSensor(
             TIMER_DPS,
-            self.entities.get("sensor_timer"),
+            self.entities.get("sensor_time_remaining"),
             unit="min",
             device_class=SensorDeviceClass.DURATION,
         )
         self.setUpBasicBinarySensor(
             ERROR_DPS,
-            self.entities.get("binary_sensor_tank"),
-            device_class=BinarySensorDeviceClass.PROBLEM,
+            self.entities.get("binary_sensor_tank_empty"),
             testdata=(1, 0),
         )
-        self.mark_secondary(["select_timer", "sensor_timer", "binary_sensor_tank"])
+        self.mark_secondary(
+            [
+                "select_timer",
+                "sensor_time_remaining",
+                "binary_sensor_tank_empty",
+            ]
+        )
 
     def test_supported_features(self):
-        self.assertEqual(self.subject.supported_features, HumidifierEntityFeature.MODES)
-        self.assertEqual(self.fan.supported_features, FanEntityFeature.SET_SPEED)
+        self.assertEqual(
+            self.subject.supported_features,
+            HumidifierEntityFeature.MODES,
+        )
+        self.assertEqual(
+            self.fan.supported_features,
+            FanEntityFeature.SET_SPEED
+            | FanEntityFeature.TURN_OFF
+            | FanEntityFeature.TURN_ON,
+        )
 
-    def test_icon_is_humidifier(self):
-        """Test that the icon is as expected."""
-        self.dps[HVACMODE_DPS] = True
-        self.assertEqual(self.subject.icon, "mdi:air-humidifier")
-
-        self.dps[HVACMODE_DPS] = False
-        self.assertEqual(self.subject.icon, "mdi:air-humidifier-off")
+    def test_current_humidity(self):
+        self.dps[CURRENTHUMID_DPS] = 75
+        self.assertEqual(self.subject.current_humidity, 75)
 
     def test_min_target_humidity(self):
         self.assertEqual(self.subject.min_humidity, 40)
@@ -163,7 +167,6 @@ class TestEanonsHumidifier(
         self.dps[ERROR_DPS] = 0
         self.dps[TIMERHR_DPS] = "cancel"
         self.dps[TIMER_DPS] = 0
-        self.dps[CURRENTHUMID_DPS] = 50
         self.dps[FANMODE_DPS] = "middle"
 
         self.assertDictEqual(
@@ -172,7 +175,6 @@ class TestEanonsHumidifier(
                 "error": "OK",
                 "timer_hr": "cancel",
                 "timer_min": 0,
-                "current_humidity": 50,
             },
         )
 

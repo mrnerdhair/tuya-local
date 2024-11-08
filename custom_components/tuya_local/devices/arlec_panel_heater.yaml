@@ -1,9 +1,10 @@
 name: Arlec 2400W Panel Heater
-product:
+products:
   - id: 70kki9an9nr0oqbj
     name: Arlec Panel Heater (2400W)
 primary_entity:
   entity: climate
+  translation_only_key: heater
   dps:
     - id: 1
       name: hvac_mode
@@ -11,13 +12,12 @@ primary_entity:
       mapping:
         - dps_val: true
           value: "heat"
-          icon: "mdi:radiator"
         - dps_val: false
           value: "off"
-          icon: "mdi:radiator-disabled"
     - id: 2
       name: temperature
       type: integer
+      unit: C
       range:
         min: 5
         max: 35
@@ -29,33 +29,39 @@ primary_entity:
       name: preset_mode
       type: string
       mapping:
-        - dps_val: "low"
-          value: "Low"
-        - dps_val: "high"
-          value: "High"
-        - dps_val: "af"
-          value: "Anti-freeze"
+        - dps_val: low
+          value: eco
+        - dps_val: high
+          value: boost
+        - dps_val: af
+          value: away
     - id: 12
       name: error
       type: bitfield
       mapping:
         - dps_val: 0
           value: "OK"
-      readonly: true
 
 secondary_entities:
   - entity: lock
-    name: Child lock
-    icon: "mdi:hand-back-right-off"
+    translation_key: child_lock
     category: config
     dps:
-      - id: 6 # can be 7
+      - id: 6
         type: boolean
         name: lock
+        # can be 7
+        optional: true
+        mapping:
+          - dps_val: null
+            value_redirect: alternate
+      - id: 7
+        type: boolean
+        optional: true
+        name: alternate
   - entity: number
-    name: Timer
+    translation_key: timer
     category: config
-    icon: "mdi:timer"
     dps:
       - id: 10
         type: integer

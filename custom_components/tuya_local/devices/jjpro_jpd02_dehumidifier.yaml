@@ -27,18 +27,21 @@ primary_entity:
       name: mode
       type: string
       mapping:
-        - dps_val: "Continuities"
-          value: "Strong"
+        - dps_val: Continuities
+          value: boost
           icon: "mdi:tshirt-crew-outline"
           icon_priority: 4
-        - dps_val: "Auto"
-          value: "Auto"
+        - dps_val: Auto
+          value: auto
           icon: "mdi:water-outline"
           icon_priority: 4
-        - dps_val: "Sleep"
-          value: "Sleep"
+        - dps_val: Sleep
+          value: sleep
           icon: "mdi:weather-night"
           icon_priority: 4
+    - id: 6
+      type: integer
+      name: current_humidity
     - id: 19
       type: bitfield
       name: error
@@ -49,7 +52,6 @@ primary_entity:
           icon_priority: 1
         - dps_val: 0
           value: "OK"
-      readonly: true
 secondary_entities:
   - entity: fan
     dps:
@@ -65,17 +67,6 @@ secondary_entities:
           - dps_val: "high"
             value: 100
   - entity: sensor
-    name: Current humidity
-    class: humidity
-    dps:
-      - id: 6
-        type: integer
-        name: sensor
-        class: measurement
-        unit: "%"
-        readonly: true
-  - entity: sensor
-    name: Current temperature
     class: temperature
     dps:
       - id: 7
@@ -83,22 +74,15 @@ secondary_entities:
         name: sensor
         unit: C
         class: measurement
-        readonly: true
   - entity: lock
-    name: Child lock
+    translation_key: child_lock
     category: config
     dps:
       - id: 16
         type: boolean
         name: lock
-        mapping:
-          - dps_val: true
-            icon: "mdi:hand-back-right-off"
-          - dps_val: false
-            icon: "mdi:hand-back-right"
   - entity: binary_sensor
-    name: Tank
-    class: problem
+    translation_key: tank_full
     category: diagnostic
     dps:
       - id: 19
@@ -109,8 +93,7 @@ secondary_entities:
             value: false
           - value: true
   - entity: switch
-    name: Ionizer
-    icon: "mdi:leaf"
+    translation_key: ionizer
     dps:
       - id: 101
         type: boolean

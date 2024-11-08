@@ -18,7 +18,6 @@ secondary_entities:
   - entity: sensor
     category: diagnostic
     class: voltage
-    name: Voltage
     dps:
       - id: 20
         name: sensor
@@ -31,7 +30,6 @@ secondary_entities:
   - entity: sensor
     category: diagnostic
     class: current
-    name: Current
     dps:
       - id: 18
         name: sensor
@@ -42,7 +40,6 @@ secondary_entities:
   - entity: sensor
     category: diagnostic
     class: power
-    name: Power
     dps:
       - id: 19
         name: sensor
@@ -55,7 +52,7 @@ secondary_entities:
   - entity: number
     category: config
     name: Timer 1
-    icon: "mdi:timer"
+    translation_key: timer
     dps:
       - id: 9
         name: value
@@ -70,7 +67,7 @@ secondary_entities:
   - entity: number
     category: config
     name: Timer 2
-    icon: "mdi:timer"
+    translation_key: timer
     dps:
       - id: 10
         name: value

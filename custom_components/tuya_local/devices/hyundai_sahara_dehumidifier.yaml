@@ -24,14 +24,17 @@ primary_entity:
         max: 80
       mapping:
         - step: 5
+    - id: 6
+      type: integer
+      name: current_humidity
     - id: 14
       type: boolean
       name: mode
       mapping:
         - dps_val: false
-          value: Normal
+          value: normal
         - dps_val: true
-          value: Sleep
+          value: sleep
           icon: "mdi:power-sleep"
           icon_priority: 3
     - id: 19
@@ -65,16 +68,6 @@ secondary_entities:
           - dps_val: high
             value: 100
   - entity: sensor
-    name: Current humidity
-    class: humidity
-    dps:
-      - id: 6
-        type: integer
-        name: sensor
-        unit: "%"
-        class: measurement
-  - entity: sensor
-    name: Current temperature
     class: temperature
     dps:
       - id: 7
@@ -83,20 +76,14 @@ secondary_entities:
         unit: C
         class: measurement
   - entity: lock
-    name: Child lock
+    translation_key: child_lock
     category: config
     dps:
       - id: 16
         type: boolean
         name: lock
-        mapping:
-          - dps_val: false
-            icon: "mdi:hand-back-right"
-          - dps_val: true
-            icon: "mdi:hand-back-right-off"
   - entity: binary_sensor
-    name: Tank
-    class: problem
+    translation_key: tank_full
     category: diagnostic
     dps:
       - id: 19

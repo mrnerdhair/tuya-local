@@ -1,14 +1,11 @@
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
-from homeassistant.components.climate.const import (
-    ClimateEntityFeature,
-    HVACMode,
-)
+from homeassistant.components.climate.const import ClimateEntityFeature, HVACMode
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
     PERCENTAGE,
     PRECISION_WHOLE,
-    UnitOfTime,
     UnitOfTemperature,
+    UnitOfTime,
 )
 
 from ..const import GPPH_HEATER_PAYLOAD
@@ -52,8 +49,8 @@ class TestGoldairHeater(
         self.setUpTargetTemperature(
             TEMPERATURE_DPS,
             self.subject,
-            min=5,
-            max=35,
+            min=5.0,
+            max=35.0,
         )
         self.setUpBasicLight(LIGHT_DPS, self.entities.get("light_display"))
         self.setUpBasicLock(LOCK_DPS, self.entities.get("lock_child_lock"))
@@ -73,7 +70,7 @@ class TestGoldairHeater(
         )
         self.setUpBasicBinarySensor(
             ERROR_DPS,
-            self.entities.get("binary_sensor_error"),
+            self.entities.get("binary_sensor_problem"),
             device_class=BinarySensorDeviceClass.PROBLEM,
             testdata=(1, 0),
         )
@@ -83,7 +80,7 @@ class TestGoldairHeater(
                 "lock_child_lock",
                 "number_timer",
                 "sensor_power_level",
-                "binary_sensor_error",
+                "binary_sensor_problem",
             ]
         )
 
@@ -94,8 +91,13 @@ class TestGoldairHeater(
                 ClimateEntityFeature.TARGET_TEMPERATURE
                 | ClimateEntityFeature.PRESET_MODE
                 | ClimateEntityFeature.SWING_MODE
+                | ClimateEntityFeature.TURN_OFF
+                | ClimateEntityFeature.TURN_ON
             ),
         )
+
+    def test_translation_key(self):
+        self.assertEqual(self.subject.translation_key, "swing_as_powerlevel")
 
     def test_icon(self):
         self.dps[HVACMODE_DPS] = True
@@ -109,7 +111,10 @@ class TestGoldairHeater(
         self.assertEqual(self.subject.icon, "mdi:radiator-disabled")
 
     def test_temperature_unit_returns_celsius(self):
-        self.assertEqual(self.subject.temperature_unit, UnitOfTemperature.CELSIUS)
+        self.assertEqual(
+            self.subject.temperature_unit,
+            UnitOfTemperature.CELSIUS,
+        )
 
     def test_precision(self):
         self.assertEqual(self.subject.precision, PRECISION_WHOLE)
@@ -126,23 +131,23 @@ class TestGoldairHeater(
 
     def test_minimum_temperature(self):
         self.dps[PRESET_DPS] = "C"
-        self.assertEqual(self.subject.min_temp, 5)
+        self.assertEqual(self.subject.min_temp, 5.0)
 
         self.dps[PRESET_DPS] = "ECO"
-        self.assertEqual(self.subject.min_temp, 5)
+        self.assertEqual(self.subject.min_temp, 5.0)
 
         self.dps[PRESET_DPS] = "AF"
-        self.assertIs(self.subject.min_temp, 5)
+        self.assertEqual(self.subject.min_temp, 5.0)
 
     def test_maximum_target_temperature(self):
         self.dps[PRESET_DPS] = "C"
-        self.assertEqual(self.subject.max_temp, 35)
+        self.assertEqual(self.subject.max_temp, 35.0)
 
         self.dps[PRESET_DPS] = "ECO"
-        self.assertEqual(self.subject.max_temp, 21)
+        self.assertEqual(self.subject.max_temp, 21.0)
 
         self.dps[PRESET_DPS] = "AF"
-        self.assertIs(self.subject.max_temp, 5)
+        self.assertEqual(self.subject.max_temp, 5.0)
 
     async def test_legacy_set_temperature_with_preset_mode(self):
         async with assert_device_properties_set(
@@ -170,16 +175,18 @@ class TestGoldairHeater(
         ):
             await self.subject.async_set_target_temperature(15)
 
-    async def test_set_target_temperature_fails_outside_valid_range_in_eco(self):
+    async def test_set_target_temperature_fails_outside_valid_range_in_eco(
+        self,
+    ):
         self.dps[PRESET_DPS] = "ECO"
 
         with self.assertRaisesRegex(
-            ValueError, "eco_temperature \\(4\\) must be between 5 and 21"
+            ValueError, "eco_temperature \\(4\\) must be between 5.0 and 21.0"
         ):
             await self.subject.async_set_target_temperature(4)
 
         with self.assertRaisesRegex(
-            ValueError, "eco_temperature \\(22\\) must be between 5 and 21"
+            ValueError, "eco_temperature \\(22\\) must be between 5.0 and 21.0"
         ):
             await self.subject.async_set_target_temperature(22)
 
@@ -214,7 +221,10 @@ class TestGoldairHeater(
         self.assertEqual(self.subject.hvac_mode, HVACMode.OFF)
 
     def test_hvac_modes(self):
-        self.assertCountEqual(self.subject.hvac_modes, [HVACMode.OFF, HVACMode.HEAT])
+        self.assertCountEqual(
+            self.subject.hvac_modes,
+            [HVACMode.OFF, HVACMode.HEAT],
+        )
 
     async def test_turn_on(self):
         async with assert_device_properties_set(
@@ -242,7 +252,10 @@ class TestGoldairHeater(
         self.assertIs(self.subject.preset_mode, None)
 
     def test_preset_modes(self):
-        self.assertCountEqual(self.subject.preset_modes, ["comfort", "eco", "away"])
+        self.assertCountEqual(
+            self.subject.preset_modes,
+            ["comfort", "eco", "away"],
+        )
 
     async def test_set_preset_mode_to_comfort(self):
         async with assert_device_properties_set(
@@ -269,17 +282,17 @@ class TestGoldairHeater(
         self.dps[SWING_DPS] = "user"
 
         self.dps[POWERLEVEL_DPS] = "stop"
-        self.assertEqual(self.subject.swing_mode, "Stop")
+        self.assertEqual(self.subject.swing_mode, "stop")
 
         self.dps[POWERLEVEL_DPS] = "3"
         self.assertEqual(self.subject.swing_mode, "3")
 
     def test_non_user_swing_mode(self):
         self.dps[SWING_DPS] = "stop"
-        self.assertEqual(self.subject.swing_mode, "Stop")
+        self.assertEqual(self.subject.swing_mode, "stop")
 
         self.dps[SWING_DPS] = "auto"
-        self.assertEqual(self.subject.swing_mode, "Auto")
+        self.assertEqual(self.subject.swing_mode, "auto")
 
         self.dps[SWING_DPS] = None
         self.assertIs(self.subject.swing_mode, None)
@@ -287,7 +300,7 @@ class TestGoldairHeater(
     def test_swing_modes(self):
         self.assertCountEqual(
             self.subject.swing_modes,
-            ["Stop", "1", "2", "3", "4", "5", "Auto"],
+            ["stop", "1", "2", "3", "4", "5", "auto"],
         )
 
     async def test_set_power_level_to_stop(self):
@@ -295,14 +308,14 @@ class TestGoldairHeater(
             self.subject._device,
             {POWERLEVEL_DPS: "stop", SWING_DPS: "stop"},
         ):
-            await self.subject.async_set_swing_mode("Stop")
+            await self.subject.async_set_swing_mode("stop")
 
     async def test_set_swing_mode_to_auto(self):
         async with assert_device_properties_set(
             self.subject._device,
             {SWING_DPS: "auto"},
         ):
-            await self.subject.async_set_swing_mode("Auto")
+            await self.subject.async_set_swing_mode("auto")
 
     async def test_set_power_level_to_numeric_value(self):
         async with assert_device_properties_set(
@@ -326,10 +339,3 @@ class TestGoldairHeater(
                 "power_level": "4",
             },
         )
-
-    def test_light_icon(self):
-        self.dps[LIGHT_DPS] = True
-        self.assertEqual(self.basicLight.icon, "mdi:led-on")
-
-        self.dps[LIGHT_DPS] = False
-        self.assertEqual(self.basicLight.icon, "mdi:led-off")

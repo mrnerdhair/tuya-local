@@ -1,11 +1,5 @@
-from homeassistant.components.climate.const import (
-    ClimateEntityFeature,
-    HVACMode,
-)
-from homeassistant.const import (
-    UnitOfTime,
-    UnitOfTemperature,
-)
+from homeassistant.components.climate.const import ClimateEntityFeature, HVACMode
+from homeassistant.const import UnitOfTemperature, UnitOfTime
 
 from ..const import ECOSTRAD_ACCENTIQ_HEATER_PAYLOAD
 from ..helpers import assert_device_properties_set
@@ -45,7 +39,9 @@ class TestEcostradAccentIqHeater(
     def test_supported_features(self):
         self.assertEqual(
             self.subject.supported_features,
-            ClimateEntityFeature.TARGET_TEMPERATURE,
+            ClimateEntityFeature.TARGET_TEMPERATURE
+            | ClimateEntityFeature.TURN_OFF
+            | ClimateEntityFeature.TURN_ON,
         )
 
     def test_temperature_unit(self):
